@@ -1,7 +1,10 @@
+import keras
 import numpy as np
 import random
+import tensorflow as tf
 
-from sklearn.model_selection import train_test_split
+from keras.models import Sequential
+from keras.layers import Dense
 
 def generate_n_random_inputs(n):
     values = []
@@ -25,9 +28,8 @@ def generate_n_random_input_outputs(n):
     inputs = generate_n_random_inputs(n)
     outputs = calculate_half_adder_outputs(inputs)
     return [inputs, outputs]
-        
+
 
 if __name__ == "__main__":
     data_size = 100
     inputs, outputs = generate_n_random_input_outputs(100)
-    x_train, x_test, y_train, y_test = train_test_split(inputs, outputs)
