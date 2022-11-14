@@ -13,18 +13,20 @@ SRC_DIR = os.path.dirname(os.path.realpath(__file__))
 MODELS_DIR = os.path.join(os.path.join(SRC_DIR, ".."), "models")
 
 def build_model():
-    learning_rate=0.01
-    input_size = 2
-    output_size = 2
+    learning_rate=0.1
+    momentum=0.9
+    input_size=2
+    output_size=2
 
     model = Sequential()
     # 3 neurons, 2 inputs, dense means fully connected 
     model.add(Dense(3, activation='relu', input_dim=input_size))
     model.add(Dense(3, activation='relu'))
-    model.add(Dense(output_size, activation='softmax'))
+    model.add(Dense(output_size, activation='sigmoid'))
 
-    my_optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
-    model.compile(optimizer=my_optimizer, loss='mae', metrics=['mae'])
+    #my_optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
+    my_optimizer = tf.keras.optimizers.SGD(learning_rate=learning_rate, momentum=momentum)
+    model.compile(optimizer=my_optimizer, loss='mse', metrics=['mse', 'mae'])
 
     return model
 
@@ -58,12 +60,14 @@ def save_model(model, model_name):
 
 
 if __name__ == "__main__":
-    x_train, y_train = DataGenerator.read_from_file("training_data.csv")
-    x_test, y_test = DataGenerator.generate_n_random_input_outputs(200)
+    #x_train, y_train = DataGenerator.read_from_file("training_data.csv")
+    skew = 0.2
+    x_train, y_train = DataGenerator.generate_n_random_input_outputs(200, skew)
+    x_test, y_test = DataGenerator.generate_n_random_input_outputs(200, skew)
     
     #x_train, x_test, y_train, y_test = train_test_split(inputs, outputs)
 
-    if False:
+    if not True:
         model_name = "Initial_model"
         model = keras.models.load_model(os.path.join(MODELS_DIR, model_name))
     else:
@@ -75,5 +79,8 @@ if __name__ == "__main__":
     print(zip(x_test, predicted_labels))
     correct_pct = validate(predicted_labels, y_test)
     print(correct_pct)
+    print(model.predict([[-0.08,0.1]]))
+    
+    DataGenerator.write_to_file(x_train, y_train, "training.csv")
     #print(y_test)
     #print(returns)
