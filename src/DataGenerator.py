@@ -1,3 +1,4 @@
+import math
 import numpy as np
 import os
 import pandas as pd
@@ -6,13 +7,24 @@ import random
 SRC_DIR = os.path.dirname(os.path.realpath(__file__))
 TRAINING_DATA_DIR = os.path.join(os.path.join(SRC_DIR, ".."), "model_data")
 
-def generate_n_random_inputs(n):
+def generate_n_random_inputs(n, skew):
     values = []
     for _ in range(2*n):
-        values.append(random.randint(0,1) + random.uniform(-0.2,0.2))
+        values.append(random.randint(0,1) + random.uniform(-skew,skew))
     x1_values = values[:n]
     x2_values = values[n:]
     return np.array(list(zip(x1_values, x2_values)))
+
+
+def generate_n_random_inputs_equal_counts(n, skew):
+    values = []
+    count_of_each = math.floor(n/4) # theres 4 possibilites [0,0] [1,0] [0,1] [1,1]
+    for _ in range(count_of_each):
+        values.append(np.array([0,0]) + np.array([random.uniform(-skew,skew), random.uniform(-skew,skew)]))
+        values.append(np.array([0,1]) + np.array([random.uniform(-skew,skew), random.uniform(-skew,skew)]))
+        values.append(np.array([1,0]) + np.array([random.uniform(-skew,skew), random.uniform(-skew,skew)]))
+        values.append(np.array([1,1]) + np.array([random.uniform(-skew,skew), random.uniform(-skew,skew)]))
+    return np.array(values)
 
 
 def calculate_half_adder_outputs(input_pairs):
@@ -26,8 +38,8 @@ def calculate_half_adder_outputs(input_pairs):
     return np.array(outputs)
 
 
-def generate_n_random_input_outputs(n):
-    inputs = generate_n_random_inputs(n)
+def generate_n_random_input_outputs(n, skew=0.2):
+    inputs = generate_n_random_inputs_equal_counts(n, skew)
     outputs = calculate_half_adder_outputs(inputs)
     return [inputs, outputs]
 
