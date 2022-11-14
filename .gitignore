@@ -1,6 +1,2 @@
 
 *.pyc
-*.pb
-*.data-00000-of-00001
-models/Initial_model/variables/variables.index
-*.index
