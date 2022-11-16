@@ -14,7 +14,7 @@ If the value is in the first set, we say that it's a 0. if it's in the second se
 
 # Running
 1. Navigate to `src` directory
-2. Update `Model.py` to build the model or leave it as is to load the existing model. You can reverse the if/else statement to build the model.
+2. Update `Model.py` to build the model or leave it as is to load the existing model. You can reverse the if/else statement in `main()` to build the model.
 3. Run the Model.py
 4. Inspect the stdout for predicted percentage
 5. (Optional) Plot the training data (after building the model)
