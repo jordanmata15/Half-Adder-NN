@@ -40,8 +40,8 @@ def train(input, output, model):
     """Trains the model with a given set of input and outputs
 
     Args:
-        input (List[List[int]]): List of pairs of half adder inputs
-        output (List[List[int]]): List of pairs of half adder outputs
+        input (List[List[float]]): List of pairs of half adder inputs
+        output (List[List[float]]): List of pairs of half adder outputs
         model (Keras.model): Model to train
 
     Returns:
@@ -78,7 +78,7 @@ def predict(model, test_input):
 
     Args:
         model (Keras.model): Model to predict with
-        test_input (List[List[int]]): Half adder inputs to predict on
+        test_input (List[List[float]]): Half adder inputs to predict on
 
     Returns:
         List[List[int]]: Expected outputs (rounded to either 0 or 1)
