@@ -54,7 +54,6 @@ def write_to_file(input_data, output_data, filename):
 
 def read_from_file(filename):
     df = pd.read_csv(os.path.join(TRAINING_DATA_DIR, filename), index_col=False)
-    print(df)
     inputs = df[['x1','x2']].to_numpy()
     outputs = df[['y1','y2']].to_numpy()
     return [inputs, outputs]
